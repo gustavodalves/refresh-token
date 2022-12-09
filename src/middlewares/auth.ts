@@ -46,7 +46,7 @@ export class AuthMiddleware {
     
         const { id } = tokenDecoded;
         if(id) {
-            request.body.id = id;
+            request.body.user_id = id;
             return next();
         }
     }

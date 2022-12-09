@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import { prisma } from "../../lib/prisma";
+import { NotFoundError } from "../../../helpers/apiError";
+import { prisma } from "../../../lib/prisma";
 
-export class GetUserById {
-    static async execute(request: Request, response: Response) {
-        const { id } = request.params
-
+export class GetUserByIdUseCase {
+    static async execute(id: string) {
         const user = await prisma.user.findUnique({
             where: { id },
             select: {
@@ -16,11 +15,9 @@ export class GetUserById {
         })
 
         if(!user) {
-            return response.status(404).json({
-                message: 'user not found'
-            })
+            throw new NotFoundError("user not found")
         }
 
-        return response.status(200).json(user)
+        return user
     }
 }

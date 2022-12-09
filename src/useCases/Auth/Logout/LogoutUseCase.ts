@@ -5,7 +5,7 @@ export class LogoutUseCase {
     static async execute(token: string) {
         const session = await prisma.session.update({
             where: {
-                session_token: token
+                session_token: token,
             },
             data: {
                 is_valid: false

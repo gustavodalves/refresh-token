@@ -2,12 +2,11 @@ import { prisma } from "../lib/prisma";
 import jwt from 'jsonwebtoken';
 
 import { env } from "../env";
+import { Jwt } from "../lib/jwt";
 
 export class GenerateAccessToken {
     static async execute(userId: string) {
-        const token = jwt.sign({
-            id: userId
-        }, env('JWT_SECRET')!)
+        const token = Jwt.sign({ id: userId }, env('JWT_SECRET'), env('JWT_ACCESS_TOKEN_EXPIRES_IN_MS'))
 
         await prisma.session.create({
             data: {

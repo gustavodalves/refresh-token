@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "../../../lib/prisma";
 
-export class GetAllUsers {
-    static async execute(request: Request, response: Response) {
+export class GetAllUsersUseCase {
+    static async execute() {
         const [users, countUsers] = await prisma.$transaction([
             prisma.user.findMany({
                 select: {
@@ -16,9 +16,9 @@ export class GetAllUsers {
         ])
 
 
-        return response.status(200).json({
+        return {
             count: countUsers,
             data: users,
-        })
+        }
     }
 }
